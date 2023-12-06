@@ -52,10 +52,7 @@ class ProductController extends Controller
     {
         $info = Product::where('id', $id)->first();
         $categories = Category::get();
-        /*  $info = Product::select('products.*', 'categories.name as category_name')
-        ->where('products.id',$id)
-        ->leftJoin('categories', 'products.category_id', 'categories.id')
-        ->get(); */
+
 
         return view('admin.product.editItemPage', compact('info', 'categories'));
     }
@@ -107,8 +104,9 @@ class ProductController extends Controller
     //post validation check
     private function postValidationCheck($request, $status)
     {
+
         $validationRules = [
-            'itemName' => 'required',
+            'itemName' => 'required|min:5|unique:products,name,' . $request->id,
             'category' => 'required',
             'price' => 'required',
             'itemCondition' => 'required',
