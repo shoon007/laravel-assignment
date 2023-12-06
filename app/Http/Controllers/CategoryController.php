@@ -96,8 +96,8 @@ class CategoryController extends Controller
     private function categoryValidationCheck($request, $status)
     {
         $validationRules = [
-            'categoryName' => 'required',
 
+            'categoryName' => 'required|min:5|unique:categories,name,' . $request->categoryId,
         ];
 
         $validationRules['image'] = $status == 'create' ? 'required|mimes:jpg,jpeg,png,webp|file' : 'mimes:jpg,jpeg,png,webp|file';
