@@ -1,0 +1,35 @@
+body{
+    background:#ecf0f3;
+}
+.card{
+    max-width: 390px;
+    margin: auto;
+    padding: 1rem;border: none;
+    background:#ecf0f3;
+    box-shadow:  10px 10px 9px #d1d9e6, -10px -10px 11px #f9f9f9
+}
+.logo{
+    background-color: rgb(56, 36, 190);
+    width:2.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding:0rem 2rem;
+    border-radius: 0.4rem;
+    color: white;
+    margin:1rem auto
+}
+.login-btn{
+    background-color: rgb(77, 77, 192);
+    color:white;
+    padding:0.3rem;
+    border-radius: 0.3rem;
+    border:none;
+    margin: 0.7rem 0rem;
+}
+.login-btn:hover{
+    opacity: 0.9;
+}
+.login-btn:active{
+    opacity: 0.6;
+}
