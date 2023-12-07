@@ -106,7 +106,7 @@ class ProductController extends Controller
     {
 
         $validationRules = [
-            'itemName' => 'required|min:5|unique:products,name,' . $request->id,
+            'itemName' => 'required|min:5|unique:products,name,' . $request->productId,
             'category' => 'required',
             'price' => 'required',
             'itemCondition' => 'required',
