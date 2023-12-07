@@ -209,3 +209,110 @@
         </div>
     </div>
 @endsection
+@section('script')
+    <script>
+        /* uploading or dragging folder */
+        //selecting all required elements
+        const dropArea = document.querySelector(".drag-area"),
+            button = dropArea.querySelector("button"),
+            input = dropArea.querySelector("input");
+        let file; //this is a global variable and we'll use it inside multiple functions
+
+        button.onclick = () => {
+            event.preventDefault(); //
+            input.click(); //if user click on the button then the input also clicked
+        }
+
+        input.addEventListener("change", function() {
+            //getting user select file and [0] this means if user select multiple files then we'll select only the first one
+            file = this.files[0];
+            dropArea.classList.add("active");
+            showFile(); //calling function
+        });
+
+
+        function showFile() {
+            let fileType = file.type; //getting selected file type
+            let validExtensions = ["image/jpeg", "image/webp", "image/jpg",
+            "image/png"]; //adding some valid image extensions in array
+            if (validExtensions.includes(fileType)) { //if user selected file is an image file
+                let fileReader = new FileReader(); //creating new FileReader object
+                fileReader.onload = () => {
+                    let fileURL = fileReader.result; //passing user file source in fileURL variable
+                    // assign the file name to the hidden input field value
+                    document.getElementById("file_name").value = file.name;
+
+                }
+                fileReader.readAsDataURL(file);
+            } else {
+                alert("This is not an Image File!");
+                dropArea.classList.remove("active");
+                dragText.textContent = "Drag & Drop to Upload File";
+            }
+        }
+
+        //Map js
+
+        var map_init = L.map('map', {
+            center: [9.0820, 8.6753],
+            zoom: 8
+        });
+        var osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map_init);
+        L.Control.geocoder().addTo(map_init);
+        if (!navigator.geolocation) {
+            console.log("Your browser doesn't support geolocation feature!")
+        } else {
+            setInterval(() => {
+                navigator.geolocation.getCurrentPosition(getPosition)
+            }, 5000);
+        };
+        var marker, circle, lat, long, accuracy;
+
+        function getPosition(position) {
+            // console.log(position)
+            lat = position.coords.latitude
+            long = position.coords.longitude
+            accuracy = position.coords.accuracy
+
+            if (marker) {
+                map_init.removeLayer(marker)
+            }
+
+            if (circle) {
+                map_init.removeLayer(circle)
+            }
+
+            marker = L.marker([lat, long])
+            circle = L.circle([lat, long], {
+                radius: accuracy
+            })
+
+            var featureGroup = L.featureGroup([marker, circle]).addTo(map_init)
+
+            map_init.fitBounds(featureGroup.getBounds())
+
+            console.log("Your coordinate is: Lat: " + lat + " Long: " + long + " Accuracy: " + accuracy)
+        }
+
+        // Add an event listener for the form submission
+        document.querySelector("form").addEventListener("submit", function(event) {
+            // Prevent the default form behavior
+            //  event.preventDefault ();
+
+
+            // Get the HTML content of the editable div
+            let html = editor.innerHTML;
+
+            // Remove the HTML tags using a regular expression
+            let text = html.replace(/<[^>]*>/g, "");
+
+            // Assign it to the value of the hidden input
+            hiddenInput.value = text;
+
+            // Submit the form
+            // this.submit ();
+        });
+    </script>
+@endsection
